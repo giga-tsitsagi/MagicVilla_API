@@ -12,6 +12,25 @@ namespace MagicVilla_VillaAPI.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<City>().HasData(
+                new City
+                {
+                    Id = 1,
+                    Name = "Berlin",
+                    Area = 3000,
+                    Population = 200000
+                },
+                new City
+                {
+                    Id = 2,
+                    Name = "Tokyo",
+                    Area = 2019,
+                    Population = 140000000
+                }
+                );
+
+
+
             modelBuilder.Entity<Villa>().HasData(
                 new Villa
                 {
@@ -78,6 +97,7 @@ namespace MagicVilla_VillaAPI.Data
                 }
                 );
         }
+        public DbSet<City> Cities { get; set; }
         public DbSet<Villa> Villas { get; set; }
     }
 }
