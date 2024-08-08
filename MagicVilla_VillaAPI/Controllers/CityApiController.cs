@@ -1,10 +1,8 @@
 ﻿using MagicVilla_VillaAPI.Data;
 using MagicVilla_VillaAPI.Models;
 using MagicVilla_VillaAPI.Models.City_DTO;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MagicVilla_VillaAPI.Controllers
 {
@@ -41,9 +39,9 @@ namespace MagicVilla_VillaAPI.Controllers
             var city = _db.Cities.FirstOrDefault(u => u.Id == id);
             if (city == null)
             {
-                
-                    return NotFound();
-                
+
+                return NotFound();
+
             }
             return Ok(city);
         }
@@ -72,7 +70,7 @@ namespace MagicVilla_VillaAPI.Controllers
             };
             _db.Cities.Add(model);
             _db.SaveChanges();
-            return CreatedAtRoute("GetVilla", new {id = model.Id}, model);
+            return CreatedAtRoute("GetVilla", new { id = model.Id }, model);
         }
 
 
@@ -92,5 +90,62 @@ namespace MagicVilla_VillaAPI.Controllers
             _db.SaveChanges();
             return NoContent();
         }
+
+        [HttpPut("{id:int}", Name = "UpdateCity")]
+        public IActionResult PostCity(int id, [FromBody] CityUpdateDTO cityDTO)
+        {
+            if (id != cityDTO.Id || cityDTO == null)
+            {
+                return BadRequest();
+            }
+            City model = new()
+            {
+                Id = id,
+                Name = cityDTO.Name,
+                Population = cityDTO.Population,
+                Area = cityDTO.Area,
+            };
+            _db.Cities.Update(model);
+            _db.SaveChanges();
+            return NoContent();
+        }
+
+        [HttpPatch("{id:int}", Name = "UpdatePartialCity")]
+        public IActionResult UpdateCity(int id, JsonPatchDocument<CityUpdateDTO> patchDTO)
+        {
+            if (id == 0 || patchDTO == null)
+            {
+                return BadRequest();
+            }
+            var city = _db.Cities.FirstOrDefault(u => u.Id == id);
+            CityUpdateDTO cityDTO = new()
+            {
+                Id = city.Id,
+                Name = city.Name,
+                Population = city.Population,
+                Area = city.Area,
+            };
+            if (city == null)// ar jobs rom if 105 xaze iyos?
+            {
+                return BadRequest();
+            }
+            patchDTO.ApplyTo(cityDTO, ModelState);
+            City model = new City()
+            {
+                Id = city.Id,
+                Name = city.Name,
+                Population = city.Population,
+                Area = city.Area,
+            };
+            _db.Cities.Update(model);
+            _db.SaveChanges();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return NoContent();
+        }
+
+
     }
 }
