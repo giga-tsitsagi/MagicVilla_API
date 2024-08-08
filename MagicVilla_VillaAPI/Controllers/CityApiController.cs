@@ -74,5 +74,23 @@ namespace MagicVilla_VillaAPI.Controllers
             _db.SaveChanges();
             return CreatedAtRoute("GetVilla", new {id = model.Id}, model);
         }
+
+
+        [HttpDelete]
+        public IActionResult DeleteCity(int id)
+        {
+            if (id == 0)
+            {
+                return BadRequest();
+            }
+            City city = _db.Cities.FirstOrDefault(x => x.Id == id);
+            if (city == null)
+            {
+                return NotFound();
+            }
+            _db.Cities.Remove(city);
+            _db.SaveChanges();
+            return NoContent();
+        }
     }
 }
