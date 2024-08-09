@@ -20,8 +20,6 @@ namespace MagicVilla_VillaAPI.Controllers
             _db = db;
             _mapper = mapper;
         }
-
-        private readonly ILogging _logger;
        
 
         [HttpGet] 
