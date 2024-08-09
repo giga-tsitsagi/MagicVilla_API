@@ -52,15 +52,9 @@ namespace MagicVilla_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<CityDTO> CreateCity([FromBody] CityCreateDTO cityDTO)
         {
-            if (_db.Cities.FirstOrDefault(u => u.Name.ToLower() == cityDTO.Name.ToLower()) != null)
-            {
-
-                /* ModelState.AddModelError("CustomError", "This villa is not unique");
-                 return BadRequest(ModelState);*/
-            }
             if (cityDTO == null)
             {
-                return null;
+                return BadRequest();
             }
             City model = new City()
             {
@@ -92,7 +86,7 @@ namespace MagicVilla_VillaAPI.Controllers
         }
 
         [HttpPut("{id:int}", Name = "UpdateCity")]
-        public IActionResult PostCity(int id, [FromBody] CityUpdateDTO cityDTO)
+        public IActionResult UpdateCity(int id, [FromBody] CityUpdateDTO cityDTO)
         {
             if (id != cityDTO.Id || cityDTO == null)
             {
