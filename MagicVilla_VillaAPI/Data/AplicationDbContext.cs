@@ -7,11 +7,11 @@ namespace MagicVilla_VillaAPI.Data
     {
         public AplicationDbContext(DbContextOptions<AplicationDbContext> options) : base(options)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            
             modelBuilder.Entity<City>().HasData(
                 new City
                 {
@@ -28,9 +28,6 @@ namespace MagicVilla_VillaAPI.Data
                     Population = 140000000
                 }
                 );
-
-
-
             modelBuilder.Entity<Villa>().HasData(
                 new Villa
                 {
@@ -55,7 +52,6 @@ namespace MagicVilla_VillaAPI.Data
                     Sqft = 550,
                     Amenity = "",
                     CreatedDate = DateTime.Now,
-
                 },
                 new Villa
                 {
@@ -68,7 +64,6 @@ namespace MagicVilla_VillaAPI.Data
                     Sqft = 750,
                     Amenity = "",
                     CreatedDate = DateTime.Now,
-
                 },
                 new Villa
                 {
@@ -81,7 +76,6 @@ namespace MagicVilla_VillaAPI.Data
                     Sqft = 900,
                     Amenity = "",
                     CreatedDate = DateTime.Now,
-
                 },
                 new Villa
                 {
@@ -99,5 +93,6 @@ namespace MagicVilla_VillaAPI.Data
         }
         public DbSet<City> Cities { get; set; }
         public DbSet<Villa> Villas { get; set; }
+        public DbSet<VillaNumber> VillaNumbers { get; set; }
     }
 }
