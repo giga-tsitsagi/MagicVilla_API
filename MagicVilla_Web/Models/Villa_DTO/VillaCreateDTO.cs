@@ -6,6 +6,7 @@ namespace MagicVilla_Web.Models.DTO
     {
         [Required]
         [MaxLength(30)]  
+        public int Id { get; set; }
         public string Name { get; set; }
         public int Occupancy { get; set; }
         public int Sqft { get; set; }
